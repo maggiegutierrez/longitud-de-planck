@@ -221,7 +221,7 @@ export const GUION = [
     puntos: [
       "Es la mejor estimación de dónde la gravedad se vuelve cuántica.",
       "No es un píxel comprobado. Es una pregunta abierta.",
-      "Quizá la responda alguien de tu generación.",
+      "Quizá la responda alguien de nuestra generación... o de la de Mati.",
     ],
     saberMas: [
       { texto: "¿Planck, longitud mínima? (Fermilab, en inglés)", url: "https://www.fnal.gov/pub/today/archive/archive_2013/today13-11-01_NutshellReadMore.html" },
