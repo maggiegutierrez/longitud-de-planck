@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Longitud de Planck</title>
+  <meta name="description" content="Un viaje interactivo de 35 potencias de diez hasta la longitud de Planck.">
+  <meta name="theme-color" content="#07040b">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icono.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icono-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Unbounded:wght@300;600;800&display=swap">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/lectura.css">
+</head>
+<body class="lectura">
+  <div class="aura" aria-hidden="true"></div>
+  <div class="grano-pantalla" aria-hidden="true"></div>
+
+  <!-- Regla fija a la derecha: indica a qué escala vas mientras bajas -->
+  <aside class="regla-fija" aria-hidden="true">
+    <span class="escala-actual" id="escala-actual">10⁰ m</span>
+    <div id="regla"></div>
+  </aside>
+
+  <header class="portada">
+    <p class="antetitulo">Un viaje de 35 potencias de diez</p>
+    <h1 class="titulo-grano" id="titulo-portada">Longitud de Planck</h1>
+    <p class="subtitulo">1,616 × 10⁻³⁵ metros</p>
+    <div class="portada-botones">
+      <a class="boton principal" href="#historia">Empezar a leer ↓</a>
+      <a class="boton" href="jugar.html">Unirme a una sala</a>
+      <a class="boton" href="presentador.html">Presentar</a>
+    </div>
+  </header>
+
+  <!-- lectura.js rellena esta sección con los capítulos y preguntas de contenido.js -->
+  <main id="historia"></main>
+
+  <section class="seccion final-lectura" id="final">
+    <div class="tarjeta-lectura vidrio">
+      <p class="etiqueta">Tu resultado</p>
+      <p class="puntaje-final"><span id="puntaje-final">0</span> <small>/ <span id="puntaje-max">0</span></small></p>
+      <p id="mensaje-final" class="texto-final"></p>
+      <button class="boton" id="reiniciar" type="button">Volver a empezar</button>
+    </div>
+    <p class="creditos">Datos: NIST/CODATA 2022, Fermilab, NASA Fermi (Nature, 2009). Hecho con HTML, CSS y JavaScript.</p>
+  </section>
+
+  <!-- Marcador de puntos flotante -->
+  <div class="marcador vidrio" id="marcador" aria-live="polite"><span id="puntos">0</span> pts</div>
+
+  <script type="module" src="js/lectura.js"></script>
+  <script type="module" src="js/pwa.js"></script>
+</body>
+</html>

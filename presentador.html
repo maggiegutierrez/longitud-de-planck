@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Presentador · Longitud de Planck</title>
+  <meta name="theme-color" content="#07040b">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icono.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Unbounded:wght@300;600;800&display=swap">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/presentador.css">
+  <!-- Librería para dibujar el código QR (crea la variable global "qrcode") -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+</head>
+<body class="proyector">
+  <div class="aura" aria-hidden="true"></div>
+  <!-- Anillos y núcleo de luz: el "zoom" que se intensifica al bajar de escala -->
+  <div class="zoom" aria-hidden="true"><i></i><i></i><i></i><b class="nucleo"></b></div>
+  <div class="grano-pantalla" aria-hidden="true"></div>
+
+  <!-- Barra superior: siempre visible salvo en la sala de espera -->
+  <header class="barra-sala" id="barra-sala" hidden>
+    <span class="etiqueta">Sala <strong id="codigo-mini">····</strong></span>
+    <span class="etiqueta" id="url-mini"></span>
+    <span class="etiqueta"><strong id="cuenta-jugadores">0</strong> participantes</span>
+  </header>
+
+  <main class="escenario" id="escenario">
+    <p class="estado-carga">Conectando…</p>
+  </main>
+
+  <!-- Regla de potencias de diez -->
+  <aside class="lateral" aria-hidden="true">
+    <span class="escala-actual" id="escala-actual">10⁰ m</span>
+    <div id="regla"></div>
+  </aside>
+
+  <!-- Controles: también funcionan con teclado (→ ← espacio) y con un presentador inalámbrico -->
+  <nav class="controles" aria-label="Controles de la presentación">
+    <button class="boton" id="btn-anterior" aria-label="Anterior">←</button>
+    <span class="etiqueta" id="progreso">0 / 0</span>
+    <button class="boton principal" id="btn-siguiente">Empezar →</button>
+    <button class="boton" id="btn-pantalla" aria-label="Pantalla completa">⛶</button>
+  </nav>
+
+  <script type="module" src="js/presentador.js"></script>
+  <script type="module" src="js/pwa.js"></script>
+</body>
+</html>

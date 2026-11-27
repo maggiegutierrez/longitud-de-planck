@@ -1,0 +1,251 @@
+/* =====================================================================
+   base.css — estilos que comparten las tres pantallas.
+
+   Orden del archivo:
+   1. Variables (los "tokens" de diseño)
+   2. Reset y cuerpo
+   3. Fondo de halos (aura) y textura de grano
+   4. Títulos con desvanecimiento granulado
+   5. Regla de escala (potencias de diez)
+   6. Botones, tarjetas y glosario
+   ===================================================================== */
+
+/* 1. VARIABLES ---------------------------------------------------------
+   Las variables CSS (custom properties) se definen una vez y se reutilizan.
+   --aura-1 y --aura-2 las cambia JavaScript en cada capítulo, y como
+   están registradas con @property, el navegador puede animar el cambio. */
+@property --aura-1 { syntax: "<color>"; inherits: true; initial-value: #3a14b8; }
+@property --aura-2 { syntax: "<color>"; inherits: true; initial-value: #6a2cff; }
+
+:root {
+  --vacio: #07040b;          /* fondo casi negro con un toque violeta */
+  --tinta: #f4ecf6;          /* texto principal */
+  --tenue: #a898b4;          /* texto secundario */
+  --linea: rgba(255, 255, 255, 0.12);
+  --vidrio: rgba(12, 5, 20, 0.58);
+  --acierto: #3fd1c3;
+  --error: #ff6b6b;
+  --calido: #ffb08a;
+
+  --f-titulo: "Unbounded", "Arial Black", system-ui, sans-serif;
+  --f-texto: "Instrument Sans", system-ui, -apple-system, sans-serif;
+  --f-dato: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+  color-scheme: dark;
+  transition: --aura-1 1.2s ease, --aura-2 1.2s ease;
+}
+
+/* 2. RESET Y CUERPO --------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--vacio);
+  color: var(--tinta);
+  font: 400 1rem/1.55 var(--f-texto);
+  -webkit-font-smoothing: antialiased;
+}
+img, svg { max-width: 100%; }
+a { color: var(--calido); }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--calido); outline-offset: 3px; }
+[hidden] { display: none !important; }
+
+/* 3. AURA: halos difuminados detrás de todo ----------------------------
+   Son tres degradados radiales muy grandes, desenfocados con blur().
+   position: fixed hace que se queden quietos mientras haces scroll. */
+.aura {
+  position: fixed;
+  inset: -25%;
+  z-index: -2;
+  background:
+    radial-gradient(40% 35% at 22% 30%, var(--aura-1), transparent 70%),
+    radial-gradient(45% 40% at 80% 45%, var(--aura-2), transparent 70%),
+    radial-gradient(35% 30% at 45% 85%, color-mix(in srgb, var(--aura-1) 60%, #ff2fb0), transparent 70%),
+    var(--vacio);
+  filter: blur(40px) saturate(1.15);
+  opacity: 0.85;
+  animation: deriva 18s ease-in-out infinite alternate;
+}
+@keyframes deriva {
+  to { transform: translate3d(-3%, 2%, 0) scale(1.06) rotate(2deg); }
+}
+
+/* Textura de grano fotográfico encima de todo (como película). */
+.grano-pantalla {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;   /* deja pasar los clics */
+  opacity: 0.16;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* 4. TÍTULOS GRANULADOS -------------------------------------------------
+   El efecto lo hace un filtro SVG (ver ui.js → instalarFiltros).
+   Aquí solo aplicamos ese filtro con filter: url(#grano).
+   El texto lleva un degradado: background-clip: text "recorta" el fondo
+   con la forma de las letras. */
+.titulo-grano {
+  font-family: var(--f-titulo);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 0.92;
+  margin: 0;
+  text-wrap: balance;
+  background: linear-gradient(180deg, #fff 30%, color-mix(in srgb, var(--aura-2) 35%, #ffd9c4));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: url(#grano);
+  /* el filtro dispersa píxeles hacia fuera: dejamos espacio para que no se recorten */
+  padding: 0.15em 0.1em;
+}
+.titulo-grano.entrando { filter: url(#grano-vivo); }
+
+.subtitulo {
+  font-family: var(--f-titulo);
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+}
+.antetitulo, .etiqueta {
+  font: 500 0.75rem/1.2 var(--f-dato);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--tenue);
+}
+
+/* 5. REGLA DE ESCALA -----------------------------------------------------
+   Una columna de marcas de 10⁰ a 10⁻³⁵. Un indicador (.regla-marca) se
+   mueve con transform según la escala del capítulo actual. */
+.regla {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font: 400 0.7rem/1 var(--f-dato);
+  color: rgba(255, 255, 255, 0.4);
+  text-align: right;
+  user-select: none;
+}
+.regla span { position: relative; padding-right: 14px; }
+.regla span::after {           /* rayita de cada marca */
+  content: "";
+  position: absolute;
+  right: 0; top: 50%;
+  width: 8px; height: 1px;
+  background: currentColor;
+}
+.regla-marca {
+  position: absolute;
+  right: -4px;
+  top: 0;
+  width: 16px; height: 16px;
+  margin-top: -8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 20%, var(--aura-2) 60%, transparent 70%);
+  box-shadow: 0 0 18px 4px color-mix(in srgb, var(--aura-2) 70%, transparent);
+  transition: top 1.2s cubic-bezier(.2, .8, .2, 1);
+}
+
+/* Lectura de la escala actual: "10⁻³⁵ m" */
+.escala-actual {
+  font: 600 1rem/1 var(--f-dato);
+  letter-spacing: -0.02em;
+}
+
+/* 6. BOTONES, TARJETAS Y GLOSARIO ------------------------------------- */
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  min-height: 48px;               /* tamaño cómodo para el dedo */
+  padding: 0.75em 1.3em;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+  font: 600 0.95rem/1 var(--f-texto);
+  text-decoration: none;
+  color: var(--tinta);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+.boton:hover { background: rgba(255, 255, 255, 0.16); }
+.boton:active { transform: scale(0.97); }
+.boton.principal {
+  border: 0;
+  background: linear-gradient(90deg, #7a3cff, #ff3fb4 55%, #ff8a3d);
+  color: #fff;
+}
+.boton:disabled { opacity: 0.45; cursor: default; }
+
+.vidrio {
+  background: var(--vidrio);
+  border: 1px solid var(--linea);
+  border-radius: 20px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Palabra del glosario: subrayado punteado que invita a tocar. */
+.termino {
+  border: 0;
+  padding: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: help;
+  text-decoration: underline dotted var(--calido);
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 2px;
+}
+.glosario-pop {
+  position: fixed;
+  z-index: 40;
+  left: 50%;
+  bottom: max(20px, env(safe-area-inset-bottom));
+  width: min(92vw, 420px);
+  translate: -50% 0;
+  padding: 1rem 1.1rem;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  animation: subir 0.25s ease both;
+}
+.glosario-pop strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  font: 600 0.72rem/1 var(--f-dato);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--calido);
+}
+.glosario-pop button {
+  position: absolute; top: 6px; right: 8px;
+  width: 36px; height: 36px;
+  border: 0; background: none; cursor: pointer;
+  font-size: 1.3rem; color: var(--tenue);
+}
+@keyframes subir { from { opacity: 0; transform: translateY(10px); } }
+
+/* Barras de resultados (proyector y lectura) */
+.barra { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: baseline; }
+.barra-pista { grid-column: 1 / -1; height: 10px; border-radius: 10px; background: rgba(255,255,255,.08); overflow: hidden; }
+.barra-pista i {
+  display: block; height: 100%; width: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #7a3cff, #ff3fb4, #ff8a3d);
+  transition: width 1s cubic-bezier(.2, .8, .2, 1);
+}
+.barra.correcta .barra-pista i { background: linear-gradient(90deg, #1c8f86, #3fd1c3); }
+
+/* Accesibilidad: quien pidió menos movimiento en su sistema, lo recibe. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

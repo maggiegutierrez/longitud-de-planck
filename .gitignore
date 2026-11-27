@@ -1,0 +1,5 @@
+# Registros que generan los emuladores de Firebase
+*.log
+.firebase/
+node_modules/
+.DS_Store

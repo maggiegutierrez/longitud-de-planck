@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <!-- viewport-fit=cover: usa toda la pantalla, incluso junto al "notch" -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Jugar · Longitud de Planck</title>
+  <meta name="theme-color" content="#07040b">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icono.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icono-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Unbounded:wght@300;600;800&display=swap">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/jugar.css">
+</head>
+<body class="movil">
+  <div class="aura" aria-hidden="true"></div>
+  <div class="grano-pantalla" aria-hidden="true"></div>
+
+  <header class="cabecera">
+    <span class="etiqueta" id="cab-sala">Longitud de Planck</span>
+    <span class="etiqueta" id="cab-puntos"></span>
+  </header>
+
+  <!-- Todo el contenido cambia aquí según la fase de la sala -->
+  <main class="pantalla" id="pantalla" aria-live="polite">
+    <p class="etiqueta">Conectando…</p>
+  </main>
+
+  <script type="module" src="js/jugar.js"></script>
+  <script type="module" src="js/pwa.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{
+  "rules": {
+    "salas": {
+      "$sala": {
+        ".read": "auth != null",
+        ".write": "auth != null && (data.exists() ? data.child('host').val() === auth.uid : newData.child('host').val() === auth.uid)",
+
+        "jugadores": {
+          "$uid": {
+            ".write": "auth != null && auth.uid === $uid && root.child('salas').child($sala).child('host').exists()",
+            ".validate": "newData.hasChildren(['apodo']) && newData.child('apodo').isString() && newData.child('apodo').val().length >= 1 && newData.child('apodo').val().length <= 16"
+          }
+        },
+
+        "respuestas": {
+          "$pregunta": {
+            "$uid": {
+              ".write": "auth != null && auth.uid === $uid && !data.exists() && root.child('salas').child($sala).child('jugadores').child($uid).exists() && root.child('salas').child($sala).child('estado/fase').val() === 'abierta' && root.child('salas').child($sala).child('estado/pregunta').val() === $pregunta && now <= root.child('salas').child($sala).child('estado/abiertaHasta').val() + 1500",
+              ".validate": "newData.child('opcion').isNumber() && newData.child('opcion').val() >= 0 && newData.child('opcion').val() <= 3"
+            }
+          }
+        }
+      }
+    }
+  }
+}
