@@ -32,7 +32,7 @@ export const GUION = [
     subtitulo: "que podemos nombrar",
     resumen: "Vamos a bajar 35 potencias de diez: de tu tamaño hasta la longitud de Planck.",
     puntos: [
-      "Una persona mide cerca de 1 metro: 10⁰ m.",
+      "Una persona mide más de 1 metro: 10⁰ m.",
       "Una célula, 10⁻⁵ m. Un átomo, 10⁻¹⁰ m. Un protón, 10⁻¹⁵ m.",
       "La longitud de Planck está 20 escalones más abajo que el protón.",
     ],
