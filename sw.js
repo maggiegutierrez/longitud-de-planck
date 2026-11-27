@@ -9,7 +9,7 @@
 //
 // Si cambias la lista de archivos, sube el número de VERSION.
 // =====================================================================
-const VERSION = "planck-v1";
+const VERSION = "planck-v2";
 const ARCHIVOS = [
   "./",
   "./index.html",
@@ -57,7 +57,7 @@ self.addEventListener("fetch", (evento) => {
   if (evento.request.method !== "GET" || url.origin !== location.origin) return;
 
   evento.respondWith(
-    fetch(evento.request)
+    fetch(evento.request, { cache: "no-cache" })
       .then((respuesta) => {
         const copia = respuesta.clone();
         caches.open(VERSION).then((cache) => cache.put(evento.request, copia));
